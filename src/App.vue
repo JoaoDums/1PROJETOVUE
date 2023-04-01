@@ -18,20 +18,6 @@ const user = ref({
 })
 const newLang = ref('')
 
-// PRIMEIRA VERSÃO MANDITA PARA ESTUDOS--
-//const nome = ref('')
-//const email = ref('')
-//const senha = ref('')
-//const confirma = ref('')
-// const data = ref('')
-//const endereco = ref('')
-//const cidade = ref('')
-//const estado = ref([])
-//const hobbies = ref('')
-//const linguagens = ref('')
-//const biografia = ref('')
-
-
 </script>
 
 <template>
@@ -68,36 +54,6 @@ const newLang = ref('')
         <div> Estados:
           <select class="form-select " v-model="estado">
             <option v-for="estado of estados" :key="estado.sigla" :value="estado.sigla">{{ estado.nome }}</option>
-
-            <!-- PRIMEIRA VERSÃO MANDITA PARA ESTUDOS-- 
-                <option value="AC">Acre</option>
-              <option value="AL">Alagoas</option>
-              <option value="AP">Amapá</option>
-              <option value="AM">Amazonas</option>
-              <option value="BA">Bahia</option>
-              <option value="CE">Ceara</option>
-              <option value="DF">Distrito Federal</option>
-              <option value="ES">Espirito Santo</option>
-              <option value="GO">Goias</option>
-              <option value="MA">Maranhão</option>
-              <option value="Mato Grosso">MT</option>
-              <option value="Mato Grosso do Sul">MS</option>
-              <option value="Minas Gerais">MG</option>
-              <option value="Pará">PA</option>
-              <option value="Paraíba">PB</option>
-              <option value="Paraná">PR</option>
-              <option value="Pernambuco">PE</option>
-              <option value="Piauí">PI</option>
-              <option value="Rio de Janeiro">RJ</option>
-              <option value="Rio Grande do Norte">RN</option>
-              <option value="Rio Grande do Sul">RS</option>
-              <option value="Rondonia">RO</option>
-              <option value="Roraima">RR</option>
-              <option value="Santa Catarina">SC</option>
-              <option value="São Paulo">SP</option>
-              <option value="Sergipe">SE</option>
-              <option value="Tocantins">TO</option> -->
-
           </select>
         </div>
         <div>
