@@ -1,37 +1,19 @@
 <script setup>
-
-import { ref, } from 'vue'
 import estados from '@/_data/estados'
-
-const user = ref({
-  nome: '',
-  email: '',
-  senha: '',
-  confirma: '',
-  data: 0,
-  endereco: '',
-  cidade: '',
-  estado: '',
-  hobbies: ([]),
-  linguagens: ([]),
-  biografia: '',
-})
-const newLang = ref('')
-const newHobbies = ref('')
-
-
+import { user, newLang, newHobbies } from '@/_data/user'
 </script>
 
 <template>
   <div class="container p-5">
-    <form>
+    <form @submit.prevent="">
       <div class="form-row">
         <div class="col-sm-4">
           <input type="text" v-model="user.name" class="form-control" placeholder="Digite seu nome" />{{
             user.name }}
         </div>
         <div class="col-sm-4">
-          <input type="text" v-model="user.email" class="form-control" placeholder="Digite seu e-mail" required/>
+          
+          <input type="text" v-model="user.email" class="form-control" placeholder="Digite seu e-mail" required />
           <div class="valid-feedback"> Validado </div>{{
             user.email }}
         </div>
@@ -55,17 +37,17 @@ const newHobbies = ref('')
           {{ user.cidade }}
         </div>
         <div class="col-sm-4">
-          <select class="form-select " v-model="estado">
-            <option v-for="estado of estados" :key="estado.sigla" :value="estado.sigla">{{ estado.nome }}</option>
+          <select class="form-select " v-model="user.estado">
+            <option v-for="estado in estados" :key="estado.sigla" :value="estado.sigla">{{ estado.nome }}</option>
           </select>
         </div>
         <div class="col-sm-4">
-          <input type="text" v-model="newHobbies" @keypress.enter="user.hobbies.push(newHobbies); newHobbies = ''"
-            placeholder="Cite alguns Hobbies" />
+          <input type="text" class="form-control" v-model="newHobbies"
+            @keypress.enter="user.hobbies.push(newHobbies); newHobbies = ''" placeholder="Cite alguns Hobbies" />
         </div>
-        <div class="">
-          <input type="text" v-model="newLang" @keypress.enter="user.linguagens.push(newLang); newLang = ''"
-            placeholder="Linguagens prog" />
+        <div class="col-sm-4">
+          <input type="text" class="form-control" v-model="newLang"
+            @keypress.enter="user.linguagens.push(newLang); newLang = ''" placeholder="Linguagens prog" />
           {{ user.linguagens }}
         </div>
         <div class="form-outline mb-4">
@@ -75,9 +57,10 @@ const newHobbies = ref('')
       </div>
     </form>
   </div>
+
+
+
+  
 </template>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>

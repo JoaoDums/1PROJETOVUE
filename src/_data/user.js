@@ -1,0 +1,18 @@
+import { ref } from 'vue'
+
+export const user = ref({
+    nome: '',
+    email: '',
+    senha: '',
+    confirma: '',
+    data: 0,
+    endereco: '',
+    cidade: '',
+    estado: '',
+    hobbies: ([]),
+    linguagens: ([]),
+    biografia: '',
+  })
+
+  export const newLang = ref('')
+  export const newHobbies = ref('')
