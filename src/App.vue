@@ -1,17 +1,45 @@
 <script setup>
+import Swal from "sweetalert2"
 import estados from '@/_data/estados'
-import { user, newLang, newHobbies } from '@/_data/user'
+import { user, newLang, newHobbies, mostrarCard, mostrarForm} from '@/_data/user'
+
+
+
+function validacao(){
+  let mensagemErro = false;
+  let valido = true;
+  Object.keys(user.value).forEach(classe => {
+    if(Array.isArray(user.value[classe])) {
+      if(user.value[classe].length === 0 && !mensagemErro){
+        Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Something went wrong!',
+  footer: '<a href="">Why do I have this issue?</a>'
+    })
+  })}
+}
+ 
+
+if (valido) {
+ mostrarCard.value = true 
+ mostrarForm.value = false
+}
+}
+
+
+
 </script>
 
 <template>
-  <body>
-    <div class="container p-5">
+ 
+    <div v-if="mostrarForm" class="container p-5">
       <form @submit.prevent="">
         <div class="form-row">
           <div class="col-sm-4">
-            <label for="user.name">Nome:</label>
-            <input type="text" v-model="user.name" class="form-control" placeholder="Digite seu nome" />{{
-              user.name }}
+            <label for="user.nome">Nome:</label>
+            <input type="text" v-model="user.nome" class="form-control" placeholder="Digite seu nome" />{{
+              user.nome }}
           </div>
           <div class="col-sm-4">
             <label for="user.email">E-mail:</label>
@@ -62,17 +90,20 @@ import { user, newLang, newHobbies } from '@/_data/user'
               @keypress.enter="user.linguagens.push(newLang); newLang = ''" placeholder="Linguagens prog" />
             {{ user.linguagens }}
           </div>
-          <div class="form-outline mb-4">
+          <div class="col-sm-4">
             <label for="user.biografia">Faça a sua biografia:</label>
-            <textarea class="form-control" rows="4" placeholder="Faça sua biografia aqui"> </textarea>
+            <textarea class="form-control" rows="4" ></textarea>
           </div>
           <div></div>
-          <button type="submit" class="btn btn-dark">Enviar</button>
-          
+          <button type="submit" @click="validacao" class="btn btn-dark">Enviar</button>
         </div>
       </form>
     </div>
-  </body>
+
+    <div v-if="mostrarCard">
+{{ user }}
+    </div>
+  
 </template>
 
 <style scoped>
@@ -83,12 +114,9 @@ label {
 
 }
 
-body {
-  background-color: #003840;
-  height: 100vh;
-}
 
 .btn-dark {
   color: #b67f5a;
 }
+
 </style>
