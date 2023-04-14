@@ -1,7 +1,7 @@
 <script setup>
 import Swal from 'sweetalert2'
 import estados from '@/_data/estados'
-import { user, newLang, newHobbies, mostrarCard, mostrarForm } from '@/_data/user'
+import { user, newLang, newHobbies, mostrarCard, mostrarForm,  } from '@/_data/user'
 
 function validacao() {
   let mensagemErro = false
@@ -47,6 +47,15 @@ function validacao() {
     mostrarForm.value = false
   }
 }
+
+function handleFileUpload(e) {
+    const target = e.target
+    if (target && target.files) {
+      const file = target.files[0]
+      user.value.avatar = URL.createObjectURL(file)
+    }
+  }
+
 </script>
 
 <template>
@@ -54,8 +63,16 @@ function validacao() {
   <div v-if="mostrarForm" class="container p-5">
     <div class="form-row">
       <div class="col-sm-4">
+        <label for="user.avatar">Foto</label>
+        <input type="file"
+        id="user.avatarField"
+        @change="handleFileUpload($event)"
+        />
+      </div>
+      <div class="col-sm-4">
         <label for="user.nome">Nome:</label>
         <input
+    
           type="text"
           v-model="user.nome"
           class="form-control"
@@ -162,19 +179,32 @@ function validacao() {
     </div>
   </div>
 
-  <div v-if="mostrarCard">
-    {{ user.nome }}
-    {{ user.email }}
-    {{ user.senha }}
-    {{ user.confirma }}
-    {{ user.data }}
-    {{ user.endereco }}
-    {{ user.estado.sigla }}
-    {{ user.estado.nome }}
-    {{ user.cidade }}
-    {{ user.hobbies.join(', ') }}
-    {{ user.linguagens.join(', ') }}
-    {{ user.biografia }}
+  <div class="d-flex justify-content-center" v-if="mostrarCard">
+   <div class="card text-white bg-dark" style="width: 18rem;">
+  <img :src="user.avatar" class="rounded-circle" alt="...">
+  <div  class="card-body bg-dark">
+    <h5 class="card-title text-gold">{{ user.nome }}</h5>
+    <p class="card-text my-0">{{ user.estado.nome }} ({{ user.estado.sigla }}) {{ user.cidade }} </p>
+    <p class="card-text">{{ user.endereco }} </p> 
+  </div>
+  <div>
+  <ul class="list-group list-group-flush ">
+    <li class="list-group-item text-white bg-dark text-center">{{ user.email }}</li>
+    <li class="list-group-item text-gold bg-dark text-center">{{ user.senha }}</li>
+    <li class="list-group-item text-white bg-dark text-center">{{ user.data }}</li>
+    <li class="list-group-item text-gold bg-dark text-center">{{ user.endereco }}</li>
+    <li class="list-group-item text-white bg-dark text-center">{{ user.cidade }}</li>
+    <li class="list-group-item text-gold bg-dark text-center">{{ user.estado.nome }} ({{ user.estado.sigla }})</li>
+    <li class="list-group-item text-white bg-dark text-center">{{ user.hobbies.join(", ") }}</li>
+    <li class="list-group-item text-gold bg-dark text-center">{{ user.linguagens.join(", ") }}</li>
+  </ul>
+  <hr>
+  </div>
+  <p class="card-text text-center">Biografia: {{ user.biografia }}</p>
+  <div class="card-body">
+   <button @click="" class="btn btn-dark">Editar Informaçoẽs</button>
+  </div>
+</div>
   </div>
 </div>
 </template>
@@ -190,6 +220,9 @@ label {
   color: #b67f5a;
 }
 
+.text-gold{
+  color: #b9794d;
+}
 
 
 </style>
