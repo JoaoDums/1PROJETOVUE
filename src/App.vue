@@ -1,7 +1,7 @@
 <script setup>
 import Swal from 'sweetalert2'
 import estados from '@/_data/estados'
-import { user, newLang, newHobbies, mostrarCard, mostrarForm,  } from '@/_data/user'
+import { user, newLang, newHobbies, mostrarForm, mostrar, mostrarConfirma  } from '@/_data/user'
 
 function validacao() {
   let mensagemErro = false
@@ -35,6 +35,7 @@ function validacao() {
   })
 
   if (user.value.confirma !== user.value.senha) {
+    valido = false
     Swal.fire({
       icon: 'error',
       title: 'Erro de confirmação',
@@ -42,8 +43,18 @@ function validacao() {
     })
   }
 
+  const regexEmail = /^\S+@\S+\.\S+$/;
+      if(!regexEmail.test(user.value.email) && !mensagemErro){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Insira um email valido.',
+        });
+        mensagemErro = true;
+        valido = false;
+      }
+
   if (valido) {
-    mostrarCard.value = true
     mostrarForm.value = false
   }
 }
@@ -55,6 +66,7 @@ function handleFileUpload(e) {
       user.value.avatar = URL.createObjectURL(file)
     }
   }
+
 
 </script>
 
@@ -77,7 +89,7 @@ function handleFileUpload(e) {
           v-model="user.nome"
           class="form-control"
           placeholder="Digite seu nome"
-        />{{ user.nome }}
+        />
       </div>
       <div class="col-sm-4">
         <label for="user.email">E-mail:</label>
@@ -89,27 +101,32 @@ function handleFileUpload(e) {
           required
         />
         <div class="valid-feedback">Validado</div>
-        {{ user.email }}
+        
       </div>
       <div class="col-sm-4">
         <label for="user.senha">Senha: </label>
+        <div class="input-group">
         <input
-          type="password"
+          :type="mostrar ? 'text' : 'password'"
           v-model="user.senha"
-          class="form-control"
+          class="form-control icon"
           placeholder="Digite sua senha"
         />
-        {{ user.senha }}
+        <button @click="mostrar = !mostrar" class="btn btn-dark" >&#128064;</button>
+      </div>
       </div>
       <div class="col-sm-4">
         <label for="user.email">Confirmar senha:</label>
-        <input
-          type="password"
+        <div class="input-group">
+      <input
+          :type="mostrarConfirma ? 'text' : 'password'"
           v-model="user.confirma"
-          class="form-control"
+          class="form-control "
           placeholder="Confirme sua senha"
-        />
-        {{ user.confirma }}
+        /> 
+
+        <button @click="mostrarConfirma = !mostrarConfirma" class="btn btn-dark ">&#128064;</button>
+      </div>
       </div>
       <div class="col-sm-4">
         <label for="user.data">Data:</label>
@@ -123,7 +140,7 @@ function handleFileUpload(e) {
       <div class="col-sm-4">
         <label for="user.endereco">Endereço:</label>
         <input type="text" v-model="user.endereco" class="form-control" placeholder="Endereço" />
-        {{ user.endereco }}
+        
       </div>
       <div class="col-sm-4">
         <label for="user.estado">Estado:</label>
@@ -179,9 +196,10 @@ function handleFileUpload(e) {
     </div>
   </div>
 
-  <div class="d-flex justify-content-center" v-if="mostrarCard">
-   <div class="card text-white bg-dark" style="width: 18rem;">
-  <img :src="user.avatar" class="rounded-circle" alt="...">
+
+  <div class="d-flex justify-content-center " v-else>
+   <div class="card text-gold bg-dark shadow-lg border-gold" style="width: 18rem;">
+  <img :src="user.avatar" class="rounded-circle " alt="..." >
   <div  class="card-body bg-dark">
     <h5 class="card-title text-gold">{{ user.nome }}</h5>
     <p class="card-text my-0">{{ user.estado.nome }} ({{ user.estado.sigla }}) {{ user.cidade }} </p>
@@ -189,20 +207,20 @@ function handleFileUpload(e) {
   </div>
   <div>
   <ul class="list-group list-group-flush ">
-    <li class="list-group-item text-white bg-dark text-center">{{ user.email }}</li>
-    <li class="list-group-item text-gold bg-dark text-center">{{ user.senha }}</li>
-    <li class="list-group-item text-white bg-dark text-center">{{ user.data }}</li>
-    <li class="list-group-item text-gold bg-dark text-center">{{ user.endereco }}</li>
-    <li class="list-group-item text-white bg-dark text-center">{{ user.cidade }}</li>
-    <li class="list-group-item text-gold bg-dark text-center">{{ user.estado.nome }} ({{ user.estado.sigla }})</li>
-    <li class="list-group-item text-white bg-dark text-center">{{ user.hobbies.join(", ") }}</li>
-    <li class="list-group-item text-gold bg-dark text-center">{{ user.linguagens.join(", ") }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.email }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold" >{{ user.senha }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.data }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold" >{{ user.endereco }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.cidade }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.estado.nome }} ({{ user.estado.sigla }})</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.hobbies.join(", ") }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.linguagens.join(", ") }}</li>
   </ul>
   <hr>
   </div>
   <p class="card-text text-center">Biografia: {{ user.biografia }}</p>
   <div class="card-body">
-   <button @click="" class="btn btn-dark">Editar Informaçoẽs</button>
+   <button @click="mostrarForm = !mostrarForm" class="btn btn-dark">Editar Informaçoẽs</button>
   </div>
 </div>
   </div>
@@ -211,17 +229,26 @@ function handleFileUpload(e) {
 
 <style scoped>
 label {
-  color: #b9794d;
+  color: #ce9137;
   font-weight: bold;
   display: block;
 }
 
 .btn-dark {
-  color: #b67f5a;
+  color: #ce9137;
 }
 
 .text-gold{
-  color: #b9794d;
+  color: #ce9137;
+}
+
+.border-gold{
+  color: #ce9137;
+  border-color: #ce9137;
+}
+
+img{
+  border: 1px solid #ce9137;
 }
 
 
