@@ -6,12 +6,14 @@ import { user, newLang, newHobbies, mostrarForm, mostrar, mostrarConfirma  } fro
 function validacao() {
   let mensagemErro = false
   let valido = true
+  console.log("Teste: " + JSON.stringify(user.value));
   Object.keys(user.value).forEach((classe) => {
+    
     if (Array.isArray(user.value[classe])) {
       if (user.value[classe].length === 0 && !mensagemErro) {
         Swal.fire({
           icon: 'error',
-          title: 'Seu burro',
+          title: 'Dados incorretos',
           text: 'Você não enviou algum hobbie ou linguagem'
         })
         mensagemErro = true
@@ -25,7 +27,7 @@ function validacao() {
       if (user.value[classe] === '' && !mensagemErro) {
         Swal.fire({
           icon: 'error',
-          title: 'Seu bobinho',
+          title: 'Dados Incorretos',
           text: 'Você esqueceu de preencher algum campo'
         })
         mensagemErro = true
@@ -84,7 +86,6 @@ function handleFileUpload(e) {
       <div class="col-sm-4">
         <label for="user.nome">Nome:</label>
         <input
-    
           type="text"
           v-model="user.nome"
           class="form-control"
@@ -160,25 +161,30 @@ function handleFileUpload(e) {
         </select>
       </div>
 
+
       <div class="col-sm-4">
         <label for="user.hobbies">Coloque alguns dos seus hobbies:</label>
         <input
           type="text"
           class="form-control"
-          v-model="newHobbies"
+          v-model=user.hobbies
+
+          
           @keypress.enter="
             user.hobbies.push(newHobbies);
             newHobbies = ''
           "
           placeholder="Cite alguns Hobbies"
         />
+
+
       </div>
       <div class="col-sm-4">
         <label for="user.linguagens">Coloque as linguagens de prog você que sabe:</label>
         <input
           type="text"
           class="form-control"
-          v-model="newLang"
+          v-model=user.linguagens
           @keypress.enter="
             user.linguagens.push(newLang);
             newLang = ''
@@ -213,8 +219,8 @@ function handleFileUpload(e) {
     <li class="list-group-item text-gold bg-dark text-center border-gold" >{{ user.endereco }}</li>
     <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.cidade }}</li>
     <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.estado.nome }} ({{ user.estado.sigla }})</li>
-    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.hobbies.join(", ") }}</li>
-    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.linguagens.join(", ") }}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.hobbies}}</li>
+    <li class="list-group-item text-gold bg-dark text-center border-gold">{{ user.linguagens}}</li>
   </ul>
   <hr>
   </div>
@@ -227,28 +233,28 @@ function handleFileUpload(e) {
 </div>
 </template>
 
-<style scoped>
+<style>
 label {
-  color: #ce9137;
+  color: #d82e2e;
   font-weight: bold;
   display: block;
 }
 
 .btn-dark {
-  color: #ce9137;
+  color: #eeedec;
 }
 
 .text-gold{
-  color: #ce9137;
+  color: #04a0ac;
 }
 
 .border-gold{
-  color: #ce9137;
-  border-color: #ce9137;
+  color: #963838;
+  border-color: #85612c;
 }
 
 img{
-  border: 1px solid #ce9137;
+  border: 1px solid #dfdf18;
 }
 
 
